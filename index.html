@@ -135,8 +135,10 @@ function prepare(){
     ctx.putImageData(image,0,0);
     prepared=true;
     history=[];
+    tool='fill';
+    selectTool();
     updateEditorControls();
-    document.getElementById('studioMsg').textContent='Готово! Теперь можно раскрашивать.';
+    document.getElementById('studioMsg').textContent='Готово! Выбери цвет и нажми на область рисунка.';
   };
   im.src=source;
 }
@@ -153,7 +155,11 @@ function savePNG(){if(document.getElementById('studioScreen').classList.contains
   load(source);
   updateEditorControls();
   title.value=f.name.replace(/\.[^.]+$/,'')||'Моя раскраска';
-  document.getElementById('studioMsg').textContent='Нажми «Подготовить контуры», затем выбери цвет.';
+  document.getElementById('studioMsg').textContent='Подготавливаем картинку для заливки…';
   e.target.value='';
+  // Автоматически готовим новую картинку, чтобы заливка работала сразу.
+  setTimeout(()=>{
+    if(source) prepare();
+  },120);
 };
 </script>
